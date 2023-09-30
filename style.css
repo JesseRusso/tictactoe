@@ -1,3 +1,8 @@
+*{
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+}
 .game-board{
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -6,5 +11,9 @@
     height: 300px;
 }
 .game-cell{
-    border: 1px black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid black;
+    font-size: 3rem;
 }
