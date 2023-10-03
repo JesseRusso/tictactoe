@@ -1,7 +1,26 @@
+:root{
+    --border-thickness: 2px;
+}
 *{
     margin: 0;
     padding: 0;
     font-family: Arial, Helvetica, sans-serif;
+    box-sizing: border-box;
+}
+html{
+    height: 100%;
+}
+body{
+    height: 100%;
+}
+.container{
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.game-container{
+    width: fit-content;
 }
 .game-board{
     display: grid;
@@ -14,6 +33,13 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    border: 1px solid black;
-    font-size: 3rem;
+    font-size: 5rem;
+}
+.middle-left, .middle-center, .middle-right{
+    border-top: var(--border-thickness) solid black;
+    border-bottom: var(--border-thickness) solid black;
+}
+.top-center, .middle-center, .bottom-center{
+    border-right: var(--border-thickness) solid black;
+    border-left: var(--border-thickness) solid black;
 }

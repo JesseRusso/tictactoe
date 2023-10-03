@@ -4,12 +4,10 @@ const gameBoard = (() => {
 
     const createBoard= () => {
         for (let i = 0; i < 9; i++){
-            //let cell = document.createElement('div');
-            //cell.classList.add('game-cell');
-            //cell.id = `Cell${i}`;
-            //gameDisplay.appendChild(cell);
-            //TEMP: adds filler cell values
-            //board.push({player: {name: 'jesse', marker: 'x'}, position: i});
+            let cell = document.getElementById(`${i}`);
+            cell.addEventListener('click', (e) => {
+                controller.makeMove(cell);
+            })
         };
     }
     const addToBoard = (player, location) => {
@@ -25,7 +23,7 @@ const gameBoard = (() => {
     const displayBoard = () => {
         board.forEach((e) => {
             const cell = document.getElementById(`${board.indexOf(e)}`);
-                if (e.player.marker != undefined){
+                if (e.player.marker !== undefined){
                     cell.innerText = e.player.marker;
                 }
         })
@@ -35,20 +33,31 @@ const gameBoard = (() => {
 
 const controller = (() => {
     const players = [];
-    const currentPlayer = null;
-    let gameDisplay = document.querySelector('game-container');
+    //let currentPlayer = {};
+    let currentPlayer = players.find((element) => element.marker = 'X');
 
     const addPlayer = (name, marker) => {
         if (players.length < 2){
             players.push(playerFactory(name, marker))
         }
     }
-    const makeMove = (player, cell) => {
-        gameBoard.addToBoard(player, cell)
-        gameBoard.displayBoard();
+    const makeMove = (cell) => {
+        //if (player[1] === currentPlayer){
+            const player = players.pop();
+            gameBoard.addToBoard(player, cell.id);
+            gameBoard.displayBoard();
+            players.unshift(player);
+       // }
     }
-    return {players, addPlayer, makeMove};
+    const oppMakeMove = () => {
+        
+    }
+    return {players, addPlayer, makeMove, currentPlayer};
 })();
 const playerFactory = (name, marker) => {
     return {name, marker};
 };
+
+gameBoard.createBoard();
+controller.addPlayer('player', 'X');
+controller.addPlayer('opp', 'O');
