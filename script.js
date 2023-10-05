@@ -1,10 +1,10 @@
 const gameBoard = (() => {
     let board = [] ;
-    const gameDisplay = document.querySelector('.game-board');
 
     const createBoard= () => {
         for (let i = 0; i < 9; i++){
             let cell = document.getElementById(`${i}`);
+            cell.classList.add('valid');
             cell.addEventListener('click', (e) => {
                 controller.makeMove(cell);
             })
@@ -28,19 +28,15 @@ const gameBoard = (() => {
                 }
         })
     }
-    return {addToBoard, createBoard, gameDisplay, displayBoard, board, clearBoard};
+    return {addToBoard, createBoard, displayBoard, clearBoard};
 })();
 
 const controller = (() => {
     const players = [];
-    //let playerMarker = 'X';
     let currentPlayer = {};
 
-    const getPlayerMarker = (players) =>{
+    const getStartingPlayer = (players) =>{
         return players.marker === 'X';
-    }
-    const setStartingPlayer = () => {
-        return players.find((getPlayerMarker));
     }
     const addPlayer = (name, marker) => {
         if (players.length < 2){
@@ -49,7 +45,7 @@ const controller = (() => {
     }
     const makeMove = (cell) => {
             const player = currentPlayer;
-            player.makeMove(cell.id);
+            player.makeMove(cell);
             gameBoard.displayBoard();
             players.unshift(player);
             currentPlayer = players.pop();
@@ -58,20 +54,23 @@ const controller = (() => {
         
     }
     const newGame = () => {
-        addPlayer('player', 'O');
-        addPlayer('opp', 'X');
-        currentPlayer = players.find(getPlayerMarker);
+        addPlayer('player', 'X');
+        addPlayer('opp', 'O');
+        currentPlayer = players.find(getStartingPlayer);
         const i = players.indexOf(currentPlayer);
         players.splice(i,1);
-        console.log(currentPlayer);
         gameBoard.clearBoard();
         gameBoard.createBoard();
     }
-    return {players, addPlayer, makeMove, newGame, currentPlayer};
+    return {addPlayer, makeMove, newGame};
 })();
 const playerFactory = (name, marker) => {
     const makeMove = (cell) => {
-        gameBoard.addToBoard({name: name, marker: marker}, cell)
+        console.log(cell);
+        if (cell.classList.contains('valid')){
+            gameBoard.addToBoard({name: name, marker: marker}, cell.id);
+            cell.classList.remove('valid');
+        }
     }
     return {name, marker, makeMove};
 };

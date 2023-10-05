@@ -34,6 +34,7 @@ body{
     justify-content: center;
     align-items: center;
     font-size: 5rem;
+    user-select: none;
 }
 .middle-left, .middle-center, .middle-right{
     border-top: var(--border-thickness) solid black;
