@@ -8,13 +8,15 @@
 </head>
 <body>
     <div class="container">
-        <div class="game-container" id="gameContainer">
-            <button class="marker-select-button">
+        <div class="button-container">
+            <button class="marker-select-button" id="X">
                 X
             </button>
-            <button class="marker-select-button">
+            <button class="marker-select-button" id="O">
                 O
             </button>
+        </div>
+        <div class="game-container" id="gameContainer">
             <div class="game-board">
                 <div id="0" class="game-cell top-left"></div>
                 <div id="1" class="game-cell top-center"></div>
@@ -27,6 +29,17 @@
                 <div id="8" class="game-cell bottom-right"></div>
             </div>
         </div>
+    </div>
+    <div id="backdrop" class="modal inactive"></div>
+    <div class="end-game-modal modal inactive">
+        <div class="modal-header">
+            <p class="winner-message"></p>
+        </div>
+        <form id="modalForm">   
+            <div class="dialog-buttons">
+                <button id="confirmButton" value="submit" formmethod="dialog">Play again</button>
+            </div>
+        </form>
     </div>
     <script src="./script.js"></script>
 </body>
