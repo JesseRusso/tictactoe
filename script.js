@@ -37,7 +37,11 @@ const gameBoard = (() => {
             }
         })
     }
-    return { addToBoard, createBoard, displayBoard, clearBoard, getPlayerBoard };
+    const checkBoard = () => {
+        const count = board.filter((index) => typeof(index) === 'object').length;
+        return count;
+    }
+    return { addToBoard, createBoard, displayBoard, clearBoard, getPlayerBoard, checkBoard, board };
 })();
 
 const controller = (() => {
@@ -45,7 +49,7 @@ const controller = (() => {
     let currentPlayer = {};
 
     const winningConditions = [
-        [0, 1, 2], [0, 3, 6], [0, 5, 8],
+        [0, 1, 2], [0, 3, 6], [0, 4, 8],
         [1, 4, 7], [2, 4, 6], [2, 5, 8],
         [3, 4, 5,], [6, 7, 8],
     ];
@@ -53,6 +57,9 @@ const controller = (() => {
         if (players.length < 2) {
             players.push(playerFactory(name, marker))
         }
+    }
+    const markerSelect = () => {
+
     }
     const getStartingPlayer = (players) => {
         return players.marker === 'X';
@@ -71,8 +78,12 @@ const controller = (() => {
             const player = currentPlayer;
             player.makeMove(cell);
             gameBoard.displayBoard();
+            if(gameBoard.checkBoard() === 9 && !checkWinner.currentPlayer){
+                modalController.openModal('TIE');
+                return;
+            }
             if (checkWinner(currentPlayer)) {
-                modalController.openModal(currentPlayer);
+                modalController.openModal(`${currentPlayer.name} wins!`);
                 return;
             }
             players.unshift(player);
@@ -89,7 +100,6 @@ const controller = (() => {
                 return result;
             }
         })
-        console.log(result);
         return result;
     }
     return { addPlayer, makeMove, newGame };
@@ -109,15 +119,14 @@ const modalController = (() => {
     const backdrop = document.getElementById('backdrop');
     const button = document.getElementById('confirmButton');
     const modalHeader = document.querySelector('.modal-header');
+    const winnerText = document.querySelector('.winner-message');
 
     button.addEventListener("click", () => {
         modalController.submitModal();
     });
 
-    const openModal = (player) => {
-        const winnerText = document.createElement('p');
-        winnerText.textContent = `${player.name} wins`;
-        modalHeader.appendChild(winnerText);
+    const openModal = (winMessage) => {
+        winnerText.textContent = `${winMessage}`;
         dia.classList.remove('inactive');
         dia.classList.add('active');
         backdrop.classList.add('active');
@@ -133,6 +142,7 @@ const modalController = (() => {
         dia.classList.add('inactive');
         backdrop.classList.remove('active');
         backdrop.classList.add('inactive');
+        winnerText.innerText = '';
     }
     return { openModal, closeModal, submitModal }
 })();

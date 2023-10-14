@@ -27,10 +27,16 @@ body{
     flex-direction: row;
     gap: 15px;
 }
+button:hover{
+    cursor: pointer;
+    transition: filter 0.3s ;
+    filter: brightness(0.9);
+}
+
 .marker-select-button{
     border: none;
     width: 100px;
-    background-color: white;
+    background-color: hsl(136°, 4%, 89%);
     padding: 10px;
     border-radius: 5px;
     box-sizing: border-box;
@@ -103,14 +109,14 @@ dialog::backdrop{
     padding: 0 5px 0 5px;
     align-items: center;
 }
-.add-book-modal{
+.end-game-modal{
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     margin: auto;
     padding: 0;
-    min-height: fit-content;
+    min-height: 100px;
     max-height: fit-content;
     grid-template-rows: 1fr 4fr;
     width: fit-content;
