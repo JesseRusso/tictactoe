@@ -38,21 +38,17 @@ const gameBoard = (() => {
         })
     }
     const checkBoard = () => {
-        const count = board.filter((index) => typeof(index) === 'object').length;
+        const count = board.filter((index) => typeof (index) === 'object').length;
         return count;
     }
     return { addToBoard, createBoard, displayBoard, clearBoard, getPlayerBoard, checkBoard, board };
 })();
 
 const controller = (() => {
-    const players = [];
+    let players = [];
     let currentPlayer = {};
+    let playerMarker = 'X';
 
-    const winningConditions = [
-        [0, 1, 2], [0, 3, 6], [0, 4, 8],
-        [1, 4, 7], [2, 4, 6], [2, 5, 8],
-        [3, 4, 5,], [6, 7, 8],
-    ];
     const addPlayer = (name, marker) => {
         if (players.length < 2) {
             players.push(playerFactory(name, marker))
@@ -62,12 +58,13 @@ const controller = (() => {
 
     }
     const getStartingPlayer = (players) => {
-        return players.marker === 'X';
+        return players.marker === 'X' ;
     }
-    const newGame = (playerMarker) => {
+    const newGame = () => {
+        players = [];
         addPlayer('player', 'X');
         addPlayer('opp', 'O');
-        currentPlayer = players.find(getStartingPlayer);
+        currentPlayer = players.find(getStartingPlayer)
         const i = players.indexOf(currentPlayer);
         players.splice(i, 1);
         gameBoard.clearBoard();
@@ -78,7 +75,7 @@ const controller = (() => {
             const player = currentPlayer;
             player.makeMove(cell);
             gameBoard.displayBoard();
-            if(gameBoard.checkBoard() === 9 && !checkWinner.currentPlayer){
+            if (gameBoard.checkBoard() === 9 && !checkWinner.currentPlayer) {
                 modalController.openModal('TIE');
                 return;
             }
@@ -89,6 +86,7 @@ const controller = (() => {
             players.unshift(player);
             currentPlayer = players.pop();
             cell.classList.remove('valid');
+            console.log(currentPlayer);
         }
     }
     const checkWinner = (player) => {
@@ -102,6 +100,11 @@ const controller = (() => {
         })
         return result;
     }
+    const winningConditions = [
+        [0, 1, 2], [0, 3, 6], [0, 4, 8],
+        [1, 4, 7], [2, 4, 6], [2, 5, 8],
+        [3, 4, 5,], [6, 7, 8],
+    ];
     return { addPlayer, makeMove, newGame };
 })();
 
@@ -150,5 +153,10 @@ document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') modalController.closeModal();
 });
 document.getElementById('X').addEventListener('click', (e) => {
-    controller.newGame(e.target.innerText);
-})
+    controller.newGame();
+    //controller.newGame(e.target.innerText);
+});
+document.getElementById('O').addEventListener('click', (e) => {
+    controller.newGame();
+    //controller.newGame(e.target.innerText);
+});
