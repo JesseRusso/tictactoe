@@ -101,16 +101,13 @@ dialog::backdrop{
     justify-content: center;
 }
 #modalForm{
-    display: grid;
-    gap: 1vh;
-    grid-template-rows: 5fr 1fr;
     height: 100%;
-    width: fit-content;
-    padding: 0 5px 0 5px;
-    align-items: center;
 }
 .end-game-modal{
     position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
     top: 0;
     left: 0;
     right: 0;

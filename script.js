@@ -54,16 +54,20 @@ const controller = (() => {
             players.push(playerFactory(name, marker))
         }
     }
-    const markerSelect = () => {
 
-    }
     const getStartingPlayer = (players) => {
         return players.marker === 'X' ;
     }
     const newGame = () => {
         players = [];
-        addPlayer('player', 'X');
-        addPlayer('opp', 'O');
+        if(playerMarker === 'O'){
+            addPlayer('Player 1', 'O');
+            addPlayer('Player 2', 'X');
+        }
+        else{
+            addPlayer('Player 1', 'X');
+            addPlayer('Player 2', 'O');
+        }
         currentPlayer = players.find(getStartingPlayer)
         const i = players.indexOf(currentPlayer);
         players.splice(i, 1);
@@ -105,7 +109,7 @@ const controller = (() => {
         [1, 4, 7], [2, 4, 6], [2, 5, 8],
         [3, 4, 5,], [6, 7, 8],
     ];
-    return { addPlayer, makeMove, newGame };
+    return { addPlayer, makeMove, newGame, playerMarker };
 })();
 
 const playerFactory = (name, marker) => {
@@ -152,11 +156,11 @@ const modalController = (() => {
 document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') modalController.closeModal();
 });
-document.getElementById('X').addEventListener('click', (e) => {
+document.getElementById('X').addEventListener('click', () => {
+    controller.playerMarker = 'X';
     controller.newGame();
-    //controller.newGame(e.target.innerText);
 });
-document.getElementById('O').addEventListener('click', (e) => {
+document.getElementById('O').addEventListener('click', () => {
+    controller.playerMarker = 'O';
     controller.newGame();
-    //controller.newGame(e.target.innerText);
 });
